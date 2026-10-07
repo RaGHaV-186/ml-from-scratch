@@ -31,8 +31,10 @@ def p_exactly_k_heads(n, k):
 
 
 def p_at_least_one(p, n):
-    raise NotImplementedError
+    if p < 0 or p > 1 or n < 0:
+        raise ValueError
 
+    return 1 - (1-p)**n
 
 def simulate_at_least_one_six(n_rolls, n_trials, rng):
     raise NotImplementedError
