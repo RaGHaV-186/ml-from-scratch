@@ -5,16 +5,25 @@ def factorial(n):
     count = n
     while count > 1:
         fact = fact * count
-        count = count -1
+        count = count - 1
 
     return fact
 
 def permutations(n, k):
-    raise NotImplementedError
+    if n < 0 or k < 0 or k > n:
+        raise ValueError
+    count = n
+    res = 1
+    while count > n-k:
+        res = res * count
+        count = count - 1
+
+    return res
+
 
 
 def combinations(n, k):
-    raise NotImplementedError
+    return permutations(n,k)//factorial(k)
 
 
 def p_exactly_k_heads(n, k):
