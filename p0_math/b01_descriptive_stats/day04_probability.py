@@ -27,7 +27,7 @@ def combinations(n, k):
 
 
 def p_exactly_k_heads(n, k):
-    raise NotImplementedError
+    return combinations(n,k)/2**n
 
 
 def p_at_least_one(p, n):
