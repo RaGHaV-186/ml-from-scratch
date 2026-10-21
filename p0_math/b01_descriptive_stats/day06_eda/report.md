@@ -35,6 +35,11 @@ H5. Tukey flags more outliers in charges than |z| > 3.
 H6. Men's smoker share is at least 40 percentage points higher than women's.
     Reason: I think men smoke more than women.
 
+| H2 | strongest Pearson r: age | age 0.299 > bmi 0.198 > children 0.068 | ✅ |
+| H3 | Spearman < Pearson (age–charges) | Spearman 0.534 vs Pearson 0.299 | ❌ |
+| H3b | bmi–charges Pearson |r| < 0.1 | 0.198 (shape untested; needs scatter) | ❌ |
+| H3c | children–charges |r| < 0.1 | Pearson 0.068, Spearman 0.133 | ✅ Pearson / ❌ Spearman |
+
 ## Results
 
 **Centre.** charges: mean 13,270, median 9,382; the mean is 41.4% above

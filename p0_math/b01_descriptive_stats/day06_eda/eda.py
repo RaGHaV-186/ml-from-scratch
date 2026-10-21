@@ -4,6 +4,7 @@ from pathlib import Path
 sys.path.append(str(Path(__file__).parent.parent))
 from day01_central_tendency import mean, median, mode
 from day02_spread import tukey_outliers, zscore_outliers, sturges_bins, fd_bins, tukey_fences
+from day03_correlation import pearson, spearman
 
 def load_columns(path):
     df = pd.read_csv(path)
@@ -64,3 +65,8 @@ if __name__ == "__main__":
 
     df = pd.read_csv("insurance.csv")
     print(df[df["charges"] == 1639.5631])
+
+    for col in ["age", "bmi", "children"]:
+        p = pearson(data[col],charges)
+        s = spearman(data[col],charges)
+        print(col, round(p, 3), round(s, 3))
