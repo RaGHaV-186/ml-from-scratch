@@ -1,4 +1,8 @@
 import pandas as pd
+import sys
+from pathlib import Path
+sys.path.append(str(Path(__file__).parent.parent))
+from day01_central_tendency import mean, median, mode
 
 def load_columns(path):
     df = pd.read_csv(path)
@@ -17,8 +21,34 @@ def column_type(values):
     else:
         return "continuous"
 
+def frequency_table(values):
+    counts = {}
+    for v in values:
+        if v in counts:
+            counts[v] += 1
+        else:
+            counts[v] = 1
+    return counts
+
 if __name__ == "__main__":
     data = load_columns("insurance.csv")
     print(len(data["age"]), list(data.keys()))
     for name, values in data.items():
         print(name, column_type(values), values[:3])
+
+    mean_charges = mean(data["charges"])
+    median_charges = median(data["charges"])
+
+    result = ((mean_charges-median_charges)/median_charges) * 100
+    print(result)
+    print(frequency_table(data["smoker"]))
+    print(frequency_table(data["region"]))
+
+    for name, values in data.items():
+        if column_type(values) == "categorical":
+            print(name, frequency_table(values))
+        else:
+            print(name,
+                  round(mean(values), 2),
+                  round(median(values), 2),
+                  mode(values))

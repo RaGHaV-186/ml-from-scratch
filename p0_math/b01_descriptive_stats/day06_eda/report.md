@@ -33,7 +33,7 @@ H6. Men's smoker share is at least 40 percentage points higher than women's.
     Reason: I think men smoke more than women.
 
 ## Results
-(after analysis)
+| H1 | mean > median by ~15% | mean 13,270 vs median 9,382: +41.4% | direction ✅, size ❌ |
 
 ## Hypotheses vs results
 | H | Prediction | Result | ✅/❌ |
