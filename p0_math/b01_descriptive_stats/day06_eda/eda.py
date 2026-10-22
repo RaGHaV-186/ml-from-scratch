@@ -5,6 +5,11 @@ sys.path.append(str(Path(__file__).parent.parent))
 from day01_central_tendency import mean, median, mode
 from day02_spread import tukey_outliers, zscore_outliers, sturges_bins, fd_bins, tukey_fences
 from day03_correlation import pearson, spearman
+from day02_spread import percentile
+from day05_bayes_rv import bayes_posterior
+
+
+
 
 def load_columns(path):
     df = pd.read_csv(path)
@@ -31,6 +36,13 @@ def frequency_table(values):
         else:
             counts[v] = 1
     return counts
+
+def ecdf(x, t):
+    count = 0
+    for v in x:
+        if v <= t:
+            count += 1
+    return count / len(x)
 
 if __name__ == "__main__":
     data = load_columns("insurance.csv")
@@ -70,3 +82,27 @@ if __name__ == "__main__":
         p = pearson(data[col],charges)
         s = spearman(data[col],charges)
         print(col, round(p, 3), round(s, 3))
+
+    pairs = list(zip(data["sex"], data["smoker"]))
+    table = frequency_table(pairs)
+    print(table)
+    p_smoke_male = table[("male", "yes")] / (table[("male", "yes")] + table[("male","no" )])
+    p_smoke_female = table[("female","yes")] / (table[("female", "yes")] + table[("female", "no")])
+    print(round(p_smoke_male * 100, 1), round(p_smoke_female * 100, 1))
+
+    q3 = percentile(charges, 75)
+    print("Q3:", q3)
+    is_top = [c > q3 for c in charges]                 # True / False per person
+    table2 = frequency_table(list(zip(data["smoker"], is_top)))
+    print(table2)
+    p_direct = table2[("yes", True)] / (table2[("yes", True)] + table2[("no", True)])
+    prior = p_direct / 1338  # P(smoker)
+    smoker_counts = frequency_table(data["smoker"])
+    prior = smoker_counts["yes"] / len(charges)
+    p_top_given_smoker = table2[("yes", True)] / smoker_counts["yes"]
+    p_top_given_non = table2[("no", True)] / smoker_counts["no"]
+    p_bayes = bayes_posterior(prior, p_top_given_smoker, p_top_given_non)
+
+    print(round(p_direct, 4), round(p_bayes, 4))
+
+    print("P(charges <= 10000):", round(ecdf(charges, 10000), 3))
